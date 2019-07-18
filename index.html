@@ -1,0 +1,66 @@
+<html>
+<head>
+	<title>Ejemplo Select2</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+
+</head>
+<body>
+<div>
+	<div class="container">	
+	
+			<div class="jumbotron">
+				<p>
+				Ejemplo basico del uso de Select2 con AJAX <br/>
+				<a href="https://select2.org/data-sources/ajax">https://select2.org/data-sources/ajax</a>
+				
+				</p>
+				<p>
+				Se esta usando como ejemplo el consumo de la API: <b>https://jsonplaceholder.typicode.com/posts?userId=1</b><br/>
+				Esta API solo recibe <strong>userId</strong> como parametro osea un Id numerico, para el ejemplo es suficiente, para usarlo con nuestra propia API dependerá de los parametros que 
+				recibamos.
+				</p>			
+
+				<select class="data-ajax form-control">			
+				</select>
+			</div>
+	</div>
+</div>
+</body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+	
+	<script type="text/javascript">
+	$(document).ready(function () {
+    $(".data-ajax").select2({
+        ajax: {
+            type: 'GET',
+            url: 'https://jsonplaceholder.typicode.com/posts', //Fake Web API
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    userId: params.term
+                };
+            },
+            processResults: function (data) {
+              
+                var results = [];
+                $.each(data, function (index, item) {                    
+                    results.push({
+                        id: item.id,
+                        text: item.id +' - '+item.title
+                    });
+                });
+                return { results: results };
+
+            },
+            cache: true
+        },
+        placeholder: 'Ingresa un Id 1,2,3...etc',        
+        minimumInputLength: 1,
+        
+    });
+});
+	</script>
+</html>
